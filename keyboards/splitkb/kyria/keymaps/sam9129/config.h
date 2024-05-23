@@ -20,7 +20,13 @@
 
 #define SERIAL_USART_FULL_DUPLEX   // Enable full duplex operation mode.
 #define SERIAL_USART_TX_PIN GP0     // USART TX pin
-#define SERIAL_USART_RX_PIN GP1   
+#define SERIAL_USART_RX_PIN GP1
+
+#define SPLIT_POINTING_ENABLE // The purpose of this feature is to enable use pointing devices on the slave side. 
+#define POINTING_DEVICE_RIGHT
+#define I2C_DRIVER I2CD1
+#define I2C1_SCL_PIN GP13
+#define I2C1_SDA_PIN GP12
 
 #ifdef RGBLIGHT_ENABLE
 #    define RGBLIGHT_EFFECT_BREATHING

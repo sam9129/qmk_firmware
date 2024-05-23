@@ -90,6 +90,8 @@
     },
     "rgblight": {
         "led_count": 14,
+        "split": true,
+        "split_count": [7, 7],
         "driver": "ws2812",
         "layers": {
             "enabled": true
