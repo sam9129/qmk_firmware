@@ -18,7 +18,9 @@
 
 // `SPLIT_HAND_PIN` can currently be defined in `info.json`,
 // but can't yet be given a value
-#define SPLIT_HAND_PIN B5
+//#define SPLIT_HAND_PIN B5
+
+#define EE_HANDS
 
 // Not yet available in `info.json`
 #ifdef OLED_ENABLE
