@@ -23,7 +23,11 @@
 #define EE_HANDS
 
 // Not yet available in `info.json`
-#ifdef OLED_ENABLE
-#    define OLED_DISPLAY_128X64
-#    define SPLIT_OLED_ENABLE
-#endif
+// //#ifdef OLED_ENABLE
+// settings for the oled keyboard demo with Adafruit 0.91" OLED display on the Stemma QT port
+// #define OLED_DISPLAY_128X64
+// #define I2C_DRIVER I2CD0
+// #define I2C1_SDA_PIN GP12
+// #define I2C1_SCL_PIN GP13
+//#    define SPLIT_OLED_ENABLE
+//#endif

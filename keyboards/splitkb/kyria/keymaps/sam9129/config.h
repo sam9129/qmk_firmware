@@ -18,17 +18,26 @@
 
 #define EE_HANDS
 
-#define SERIAL_USART_FULL_DUPLEX   // Enable full duplex operation mode.
-#define SERIAL_USART_TX_PIN GP0     // USART TX pin
-#define SERIAL_USART_RX_PIN GP1
+#define MASTER_RIGHT
 
-#define SPLIT_POINTING_ENABLE // The purpose of this feature is to enable use pointing devices on the slave side. 
-#define POINTING_DEVICE_RIGHT
-#define I2C_DRIVER I2CD1
-#define I2C1_SCL_PIN GP13
+#define SERIAL_USART_TX_PIN GP0
+#define SERIAL_PIO_USE_PIO1
+
+//#define SPLIT_POINTING_ENABLE // The purpose of this feature is to enable use pointing devices on the slave side. 
+// #define POINTING_DEVICE_RIGHT
+// #define OLED_DISPLAY_128X64
+#define PIMORONI_TRACKBALL_ENABLE // RIGHT HAND SIDE
+#define PIMORONI_TRACKBALL_CLICK // RIGHT HAND SIDE
+// orientation pimoroni text on top and trackball text at the bottom
+#define PIMORONI_TRACKBALL_ROTATE
+#define I2C_DRIVER I2CD0
 #define I2C1_SDA_PIN GP12
+#define I2C1_SCL_PIN GP13
+
+#define ENCODER_RESOLUTION 1
 
 #ifdef RGBLIGHT_ENABLE
+#define RGBLIGHT_LAYERS
 #    define RGBLIGHT_EFFECT_BREATHING
 #    define RGBLIGHT_EFFECT_RAINBOW_MOOD
 #    define RGBLIGHT_EFFECT_RAINBOW_SWIRL
@@ -43,7 +52,7 @@
 #    define RGBLIGHT_SAT_STEP 8
 #    define RGBLIGHT_VAL_STEP 8
 #    ifndef RGBLIGHT_LIMIT_VAL
-#    	define RGBLIGHT_LIMIT_VAL 150
+#    	define RGBLIGHT_LIMIT_VAL 255
 #    endif
 #endif
 

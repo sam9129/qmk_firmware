@@ -13,7 +13,7 @@
         "mousekey": true,
         "bootmagic": true,
         "extrakey": true,
-        "oled": true,
+        "oled": false,
         "rgb_matrix": false,
         "rgblight": true
     },
@@ -99,40 +99,42 @@
     },
     "ws2812": {
         "driver": "vendor",
-        "pin": "GP18"
+        "pin": "GP29"
     },
     "transport": {
-        "protocol": "serial_uart"
+        "protocol": "serial_usart"
     },     
     "matrix_pins": {
-        "rows": ["GP29", "GP28", "GP27", "GP26"],
-        "cols": ["GP2", "GP3", "GP4", "GP5", "GP6", "GP7", "GP8"]
+        "rows": ["GP5", "GP6", "GP7", "GP8"],
+        "cols": ["GP28", "GP27", "GP26", "GP18", "GP20", "GP19", "GP10"]
     },
     "encoder": {
         "enabled": true,
         "rotary": [
-            {"pin_a": "GP20", "pin_b": "GP19"}
+            {"pin_a": "GP4", "pin_b": "GP3"}
         ]
     },
 
     "split": {
+        "enabled": true,
         "bootmagic": {
             "matrix": [4, 6]
         },
         "matrix_pins": {
             "right": {
-                "rows": ["GP29", "GP28", "GP27", "GP26"],
-                "cols": ["GP2", "GP3", "GP4", "GP5", "GP6", "GP7", "GP8"]
+                "rows": ["GP18", "GP20", "GP19", "GP10"],
+                "cols": ["GP3", "GP4", "GP5", "GP6", "GP7", "GP8", "GP9"]
             }
         },
         "encoder": {
             "right": {
                 "rotary": [
-                    {"pin_a": "GP20", "pin_b": "GP19"}
+                    {"pin_a": "GP27", "pin_b": "GP28"}
                 ]
             }
         },
         "transport": {
+            "protocol": "serial_usart",
             "sync": {
                 "matrix_state": true
             }

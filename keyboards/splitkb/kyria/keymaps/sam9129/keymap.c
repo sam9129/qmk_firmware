@@ -15,6 +15,27 @@
  */
 #include QMK_KEYBOARD_H
 
+#ifdef PIMORONI_TRACKBALL_ENABLE
+#include "drivers/sensors/pimoroni_trackball.h"
+#include "pointing_device.h"
+#endif
+
+enum custom_keycodes {
+    DR_SCRL = SAFE_RANGE,
+    // A_UML,
+    // U_UML,
+    // O_UML,
+};
+
+bool nav_layer = false;
+bool set_scrolling = false;
+
+#define SCROLL_DIVISOR_H 8.0
+#define SCROLL_DIVISOR_V 8.0
+
+float scroll_accumulated_h = 0;
+float scroll_accumulated_v = 0;
+
 enum layers {
     _QWERTY = 0,
     _DVORAK,
@@ -23,6 +44,7 @@ enum layers {
     _SYM,
     _FUNCTION,
     _ADJUST,
+    _UML,
 };
 
 // Aliases for readability
@@ -34,11 +56,16 @@ enum layers {
 #define NAV MO(_NAV)
 #define FKEYS MO(_FUNCTION)
 #define ADJUST MO(_ADJUST)
+#define UMLL MO(_UML)
 
 #define CTL_ESC MT(MOD_LCTL, KC_ESC)
 #define CTL_QUOT MT(MOD_RCTL, KC_QUOTE)
 #define CTL_MINS MT(MOD_RCTL, KC_MINUS)
 #define ALT_ENT MT(MOD_LALT, KC_ENT)
+
+#define A_UML RALT(KC_Q)
+#define O_UML RALT(KC_P)
+#define U_UML RALT(KC_Y)
 
 // Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
 // The notation `mod/tap` denotes a key that activates the modifier `mod` when held down, and
@@ -64,7 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TAB  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                        KC_Y,   KC_U ,  KC_I ,   KC_O ,  KC_P , KC_BSPC,
      CTL_ESC , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                        KC_H,   KC_J ,  KC_K ,   KC_L ,KC_SCLN,CTL_QUOT,
      KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_LBRC,KC_CAPS,     FKEYS  , KC_RBRC, KC_N,   KC_M ,KC_COMM, KC_DOT ,KC_SLSH, KC_RSFT,
-                                ADJUST , KC_LGUI, ALT_ENT, KC_SPC , NAV   ,     SYM    , KC_SPC ,KC_RALT, KC_RGUI, KC_APP
+                                ADJUST , KC_LGUI,  KC_SPC, ALT_ENT,  NAV  ,     SYM    ,KC_RALT , KC_SPC, KC_RGUI, UMLL
     ),
 
 /*
@@ -124,7 +151,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NAV] = LAYOUT(
-      _______, _______, KC_BTN2, KC_BTN3, KC_BTN1, _______,                                     KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_VOLU, KC_DEL,
+      _______, _______, KC_BTN2, KC_BTN3, KC_BTN1, DR_SCRL,                                     KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_VOLU, KC_DEL,
       _______, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, _______,                                     KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD, KC_INS,
       _______, _______, _______, _______, _______, _______, _______, KC_SCRL, _______, _______,KC_PAUSE, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_PSCR,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
@@ -147,7 +174,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_SYM] = LAYOUT(
       KC_GRV ,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                                       KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,   KC_0 , KC_EQL ,
      KC_TILD , KC_EXLM,  KC_AT , KC_HASH,  KC_DLR, KC_PERC,                                     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_PLUS,
-     KC_PIPE , KC_BSLS, KC_COLN, KC_SCLN, KC_MINS, KC_LBRC, KC_LCBR, _______, _______, KC_RCBR, KC_RBRC, KC_UNDS, KC_COMM,  KC_DOT, KC_SLSH, KC_QUES,
+     KC_PIPE , KC_BSLS, KC_COLN, KC_SCLN, KC_MINS, KC_LBRC, KC_LPRN, _______, _______, KC_RPRN, KC_RBRC, KC_UNDS, KC_COMM,  KC_DOT, KC_SLSH, KC_QUES,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
@@ -207,12 +234,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //  *                        |      |      |      |      |      |  |      |      |      |      |      |
 //  *                        `----------------------------------'  `----------------------------------'
 //  */
-//     [_LAYERINDEX] = LAYOUT(
-//       _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
-//       _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
-//       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-//                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-//     ),
+    [_UML] = LAYOUT(
+      _______, _______, _______, _______, _______, _______,                                     _______, U_UML  , _______, O_UML  , _______, _______,
+      A_UML  , _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
 };
 
 /* The default OLED and rotary encoder code can be found at the bottom of qmk_firmware/keyboards/splitkb/kyria/rev1/rev1.c
@@ -220,9 +247,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * For your convenience, here's a copy of those settings so that you can uncomment them if you wish to apply your own modifications.
  * DO NOT edit the rev1.c file; instead override the weakly defined default functions by your own.
  */
-
-/* DELETE THIS LINE TO UNCOMMENT (1/2)
+//#define OLED_DISPLAY_128X64
 #ifdef OLED_ENABLE
+
 oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_180; }
 
 bool oled_task_user(void) {
@@ -303,12 +330,106 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     } else if (index == 1) {
         // Page up/Page down
         if (clockwise) {
-            tap_code(KC_PGDN);
+            nav_layer ? tap_code(KC_RIGHT) : tap_code(KC_DOWN);
         } else {
-            tap_code(KC_PGUP);
+            nav_layer ? tap_code(KC_LEFT) : tap_code(KC_UP);
         }
     }
     return false;
 }
 #endif
-DELETE THIS LINE TO UNCOMMENT (2/2) */
+
+void keyboard_post_init_user(void) {
+#ifdef PIMORONI_TRACKBALL_ENABLE
+    pimoroni_trackball_set_rgbw(0,0,0,80);
+#endif
+}
+
+report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
+    if (set_scrolling) {
+        // calculate and accumulate scroll values based on mouse movement and divisors
+        scroll_accumulated_h += (float)mouse_report.x / SCROLL_DIVISOR_H;
+        scroll_accumulated_v += (float)mouse_report.y / SCROLL_DIVISOR_V;
+
+        // assign integer parts of accumulated scroll values to the mouse report
+        mouse_report.h = (int8_t)scroll_accumulated_h;
+        mouse_report.v = (int8_t)scroll_accumulated_v;
+
+        // update accumulated scroll values by subtracting the integer parts
+        scroll_accumulated_h -= (int8_t)scroll_accumulated_h;
+        scroll_accumulated_v -= (int8_t)scroll_accumulated_v;
+
+        // clear the x and y values of the mouse report
+        mouse_report.x = 0;
+        mouse_report.y = 0;
+    }
+
+    return mouse_report;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case DR_SCRL:
+            set_scrolling = record->event.pressed;
+            break;
+        default:
+            break;
+    }
+
+    return true;
+}
+
+#ifdef PIMORONI_TRACKBALL_ENABLE
+void set_trackball_rgb(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+    case _QWERTY:
+        pimoroni_trackball_set_rgbw(0,0,0,80);
+        break;
+    case _NAV:
+        pimoroni_trackball_set_rgbw(0,153,95,0);
+        break;
+    case _SYM:
+        pimoroni_trackball_set_rgbw(153,113,0,0);
+        break;
+    case _FUNCTION:
+        pimoroni_trackball_set_rgbw(0,113,0,0);
+        break;
+    case _ADJUST:
+        pimoroni_trackball_set_rgbw(153,0,0,0);
+        break;
+    case _UML:
+        pimoroni_trackball_set_rgbw(122, 0, 200, 0);
+        break;
+    default: //  for any other layers, or the default layer
+        pimoroni_trackball_set_rgbw(0,0,0,80);
+        break;
+    }
+}
+#endif
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+#ifdef PIMORONI_TRACKBALL_ENABLE
+    set_trackball_rgb(state);
+#endif 
+    nav_layer = get_highest_layer(state) == _NAV;
+
+    switch (get_highest_layer(state)) {
+    case _QWERTY:
+        break;
+    case _NAV:
+        break;
+    case _SYM:
+        break;
+    case _FUNCTION:
+        break;
+    case _ADJUST:
+        break;
+    default: 
+        break;
+    }
+
+    if(get_highest_layer(state) != _NAV)
+        set_scrolling = false;
+
+  return state;
+}
