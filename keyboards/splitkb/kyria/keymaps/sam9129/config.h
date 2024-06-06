@@ -26,13 +26,13 @@
 //#define SPLIT_POINTING_ENABLE // The purpose of this feature is to enable use pointing devices on the slave side. 
 // #define POINTING_DEVICE_RIGHT
 // #define OLED_DISPLAY_128X64
-#define PIMORONI_TRACKBALL_ENABLE // RIGHT HAND SIDE
-#define PIMORONI_TRACKBALL_CLICK // RIGHT HAND SIDE
+// #define PIMORONI_TRACKBALL_ENABLE // RIGHT HAND SIDE
+// #define PIMORONI_TRACKBALL_CLICK // RIGHT HAND SIDE
 // orientation pimoroni text on top and trackball text at the bottom
-#define PIMORONI_TRACKBALL_ROTATE
-#define I2C_DRIVER I2CD0
-#define I2C1_SDA_PIN GP12
-#define I2C1_SCL_PIN GP13
+// #define PIMORONI_TRACKBALL_ROTATE
+// #define I2C_DRIVER I2CD0
+// #define I2C1_SDA_PIN GP12
+// #define I2C1_SCL_PIN GP13
 
 #define ENCODER_RESOLUTION 1
 
