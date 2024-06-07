@@ -22,9 +22,6 @@
 
 enum custom_keycodes {
     DR_SCRL = SAFE_RANGE,
-    // A_UML,
-    // U_UML,
-    // O_UML,
 };
 
 bool nav_layer = false;
@@ -242,9 +239,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-void keyboard_pre_init_user(void) {
-    gpio_set_pin_input_high(GP29);
-}
+// void keyboard_pre_init_user(void) {
+//     gpio_set_pin_input_high(GP26);
+// }
 
 /* The default OLED and rotary encoder code can be found at the bottom of qmk_firmware/keyboards/splitkb/kyria/rev1/rev1.c
  * These default settings can be overriden by your own settings in your keymap.c
@@ -380,8 +377,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
     }
     
-    if (!eeconfig_read_handedness() && gpio_read_pin(GP29))
-        tap_code(KC_BTN1); 
+    // if (!eeconfig_read_handedness() && gpio_read_pin(GP26))
+    //     tap_code(KC_BTN1); 
     
     return true;
 }
