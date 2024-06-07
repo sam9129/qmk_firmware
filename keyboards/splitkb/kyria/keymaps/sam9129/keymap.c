@@ -248,7 +248,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * For your convenience, here's a copy of those settings so that you can uncomment them if you wish to apply your own modifications.
  * DO NOT edit the rev1.c file; instead override the weakly defined default functions by your own.
  */
-//#define OLED_DISPLAY_128X64
 #ifdef OLED_ENABLE
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_180; }
