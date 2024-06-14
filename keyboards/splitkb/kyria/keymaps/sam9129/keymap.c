@@ -25,6 +25,7 @@ enum custom_keycodes {
 };
 
 bool nav_layer = false;
+bool adj_layer = false;
 bool set_scrolling = false;
 
 #define SCROLL_DIVISOR_H 8.0
@@ -323,9 +324,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
         // Volume control
         if (clockwise) {
-            tap_code(KC_VOLU);
+            adj_layer ? tap_code(KC_WH_D) : tap_code(KC_VOLU);
         } else {
-            tap_code(KC_VOLD);
+            adj_layer ? tap_code(KC_WH_U) : tap_code(KC_VOLD);
         }
     } else if (index == 1) {
         // Page up/Page down
@@ -415,6 +416,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     set_trackball_rgb(state);
 #endif 
     nav_layer = get_highest_layer(state) == _NAV;
+    adj_layer = get_highest_layer(state) == _ADJUST;
 
     switch (get_highest_layer(state)) {
     case _QWERTY:
