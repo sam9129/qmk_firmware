@@ -24,8 +24,6 @@ enum custom_keycodes {
     DR_SCRL = SAFE_RANGE,
 };
 
-bool nav_layer = false;
-bool adj_layer = false;
 bool set_scrolling = false;
 
 #define SCROLL_DIVISOR_H 8.0
@@ -44,6 +42,8 @@ enum layers {
     _ADJUST,
     _UML,
 };
+
+layer_state_t m_layer = _QWERTY;
 
 // Aliases for readability
 #define QWERTY DF(_QWERTY)
@@ -320,22 +320,25 @@ bool oled_task_user(void) {
 
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
-
-    if (index == 0) {
-        // Volume control
-        if (clockwise) {
-            adj_layer ? tap_code(KC_WH_D) : tap_code(KC_VOLU);
-        } else {
-            adj_layer ? tap_code(KC_WH_U) : tap_code(KC_VOLD);
-        }
-    } else if (index == 1) {
-        // Page up/Page down
-        if (clockwise) {
-            nav_layer ? tap_code(KC_RIGHT) : tap_code(KC_DOWN);
-        } else {
-            nav_layer ? tap_code(KC_LEFT) : tap_code(KC_UP);
-        }
+    switch(m_layer) {
+        case _NAV:
+            if (index == 1)
+                clockwise ? tap_code(KC_RIGHT) : tap_code(KC_LEFT);
+        break;
+        case _ADJUST:
+            if (index == 0)
+                clockwise ? tap_code(KC_WH_D) : tap_code(KC_WH_U);
+            else if (index == 1) 
+                clockwise ? tap_code(KC_BRIU) : tap_code(KC_BRID);
+        break;
+        default:
+            if (index == 0)
+                clockwise ? tap_code(KC_VOLU) : tap_code(KC_VOLD);
+            else if (index == 1)
+                clockwise ? tap_code(KC_DOWN) : tap_code(KC_UP);
+        break;
     }
+
     return false;
 }
 #endif
@@ -415,10 +418,9 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 #ifdef PIMORONI_TRACKBALL_ENABLE
     set_trackball_rgb(state);
 #endif 
-    nav_layer = get_highest_layer(state) == _NAV;
-    adj_layer = get_highest_layer(state) == _ADJUST;
+    m_layer = get_highest_layer(state);
 
-    switch (get_highest_layer(state)) {
+    switch (m_layer) {
     case _QWERTY:
         break;
     case _NAV:

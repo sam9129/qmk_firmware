@@ -13,7 +13,7 @@
         "mousekey": true,
         "bootmagic": true,
         "extrakey": true,
-        "oled": false,
+        "oled": true,
         "rgb_matrix": false,
         "rgblight": true
     },

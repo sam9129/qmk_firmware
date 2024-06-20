@@ -1,8 +1,8 @@
 # --- enable this for left hand side
-# OLED_ENABLE = yes 		   # right side doesn't have OLED
-# OLED_DRIVER = ssd1306
-# OLED_TRANSPORT = i2c
-# OPT_DEFS += -DHAL_USE_I2C=TRUE
+OLED_ENABLE = yes 		   # right side doesn't have OLED
+OLED_DRIVER = ssd1306
+OLED_TRANSPORT = i2c
+OPT_DEFS += -DHAL_USE_I2C=TRUE
 # ---
 ENCODER_ENABLE = yes       # Enables the use of one or more encoders
 RGB_MATRIX_ENABLE = no     # Disable keyboard RGB matrix, as it is enabled by default on rev3

@@ -31,11 +31,14 @@
 #define I2C1_SCL_PIN GP13
 #define PIMORONI_TRACKBALL_ENABLE // RIGHT HAND SIDE
 #define PIMORONI_TRACKBALL_CLICK // RIGHT HAND SIDE
+#define SPLIT_OLED_ENABLE
 // orientation pimoroni text on top and trackball text at the bottom
 #define PIMORONI_TRACKBALL_ROTATE
 #else 
-// #define OLED_DISPLAY_128X64
-// #define SPLIT_OLED_ENABLE
+#define I2C_DRIVER I2CD0
+#define I2C1_SDA_PIN GP12
+#define I2C1_SCL_PIN GP13
+#define OLED_DISPLAY_128X64
 #endif
 
 
