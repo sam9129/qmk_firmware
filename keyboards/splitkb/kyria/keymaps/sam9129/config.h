@@ -18,32 +18,19 @@
 
 #define EE_HANDS
 
-#define MASTER_RIGHT
-
 #define SERIAL_USART_TX_PIN GP0
 #define SERIAL_PIO_USE_PIO1
 
-#define RIGHT_HAND_SIDE
-
-#ifdef RIGHT_HAND_SIDE
 #define I2C_DRIVER I2CD0
 #define I2C1_SDA_PIN GP12
 #define I2C1_SCL_PIN GP13
-#define PIMORONI_TRACKBALL_ENABLE // RIGHT HAND SIDE
-#define PIMORONI_TRACKBALL_CLICK // RIGHT HAND SIDE
-#define SPLIT_OLED_ENABLE
-// orientation pimoroni text on top and trackball text at the bottom
 #define PIMORONI_TRACKBALL_ROTATE
-#else 
-#define I2C_DRIVER I2CD0
-#define I2C1_SDA_PIN GP12
-#define I2C1_SCL_PIN GP13
+#define PIMORONI_TRACKBALL_ENABLE
+#define PIMORONI_TRACKBALL_CLICK 
 #define OLED_DISPLAY_128X64
-#endif
-
-
-//#define SPLIT_POINTING_ENABLE // The purpose of this feature is to enable use pointing devices on the slave side. 
-// #define POINTING_DEVICE_RIGHT
+#define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_POINTING_ENABLE // The purpose of this feature is to enable use pointing devices on the slave side. 
+#define POINTING_DEVICE_RIGHT
 
 #define ENCODER_RESOLUTION 1
 
