@@ -264,7 +264,7 @@ bool oled_task_user(void) {
         // clang-format on
 
         oled_write_P(qmk_logo, false);
-        oled_write_P(PSTR("Kyria rev1.0\n\n"), false);
+        oled_write_P(PSTR("Sam's keeb\n\n"), false);
 
         // Host Keyboard Layer Status
         oled_write_P(PSTR("Layer: "), false);
@@ -313,13 +313,13 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         break;
         case _ADJUST:
             if (index == 0)
-                clockwise ? tap_code(KC_WH_D) : tap_code(KC_WH_U);
+                clockwise ? tap_code(KC_VOLU) : tap_code(KC_VOLD);
             else if (index == 1) 
                 clockwise ? tap_code(KC_BRIU) : tap_code(KC_BRID);
         break;
         default:
             if (index == 0)
-                clockwise ? tap_code(KC_VOLU) : tap_code(KC_VOLD);
+                clockwise ? tap_code(KC_WH_D) : tap_code(KC_WH_U);
             else if (index == 1)
                 clockwise ? tap_code(KC_DOWN) : tap_code(KC_UP);
         break;
@@ -328,6 +328,21 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     return false;
 }
 #endif
+
+bool dip_switch_update_user(uint8_t index, bool active) {
+    switch(index) {
+        case 0:
+            if (active)
+                tap_code(KC_MPLY);
+        break;
+        case 1:
+            if (active)
+                tap_code(KC_BTN1);
+        break;
+    }
+
+    return false;
+}
 
 void keyboard_post_init_user(void) {
 #ifdef PIMORONI_TRACKBALL_ENABLE

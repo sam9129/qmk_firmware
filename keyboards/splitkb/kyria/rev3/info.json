@@ -114,7 +114,10 @@
             {"pin_a": "GP4", "pin_b": "GP3"}
         ]
     },
-
+    "dip_switch": {
+        "enabled": true,
+        "pins": ["GP2"]
+    },
     "split": {
         "enabled": true,
         "bootmagic": {
@@ -133,6 +136,11 @@
                 ]
             }
         },
+        "dip_switch": {
+            "right": {
+                "pins":["GP29"]
+            }
+        },
         "transport": {
             "protocol": "serial_usart",
             "sync": {
@@ -140,5 +148,4 @@
             }
         }
     }
-
 }
