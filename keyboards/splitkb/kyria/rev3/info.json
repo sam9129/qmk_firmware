@@ -138,7 +138,7 @@
         },
         "dip_switch": {
             "right": {
-                "pins":["GP29"]
+                "pins":["GP26"]
             }
         },
         "transport": {
